@@ -3,26 +3,35 @@ package com.project.examBench.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.project.examBench.pojo.User;
+import com.project.examBench.repository.UserRepository;
 
 @Service
 public class UserService {
-	
+	@Autowired
+	private UserRepository userRepository;
+
 	private static List<User> users = new ArrayList<>();
 
 	public final User save(User user) {
 		users.add(user);
 		User dbUser = null;
-		dbUser = user;//has to change
+		dbUser = user;// has to change
 		return dbUser;
 	}
-	
-	public User findByEmailAndPassword(final User user) {
-		return users.stream().
-				filter(u -> (user.getEmail().equals(u.getEmail()) &&user.getPassword().equals(u.getPassword())))
-				.findFirst().orElse(null);
+
+	public User find(final User user) {
+		User dbUser = null;
+		try {
+			dbUser = userRepository.findUser(user);
+		} catch (EmptyResultDataAccessException e) {
+		}
+
+		return dbUser;
 	}
 
 }

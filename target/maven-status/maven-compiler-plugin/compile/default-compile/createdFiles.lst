@@ -1,6 +1,0 @@
-com\project\examBench\AppInitializer.class
-com\project\examBench\pojo\User.class
-com\project\examBench\controller\UserController.class
-com\project\examBench\service\UserService.class
-com\project\examBench\AppConfig.class
-com\project\examBench\controller\WelcomeController.class
