@@ -37,7 +37,7 @@ public class UserController {
 	@PostMapping("/login")
     public String login(final Model model, final User user) {
 		String returnPage = "home";
-		User dbUser = userService.findByEmailAndPassword(user);
+		User dbUser = userService.find(user);
 		if (dbUser == null) {
 			returnPage = "login";
 			model.addAttribute("isUserNotExist", Boolean.TRUE);

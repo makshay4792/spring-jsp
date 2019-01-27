@@ -3,11 +3,20 @@ package com.project.examBench.pojo;
 public class User {
 
 	private Long id;
-	private String fullName;
-	private String email;
+	private String username;
 	private String password;
+	private int role;
 
 	public User() {
+		super();
+	}
+
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
 	}
 
 	public Long getId() {
@@ -18,20 +27,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getFullName() {
-		return fullName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -44,7 +45,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
 	}
 	
 }

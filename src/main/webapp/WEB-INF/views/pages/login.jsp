@@ -15,7 +15,7 @@
 	<label for="email">
 		<spring:message code="user.login.email"/>
 	</label>
-	<input type="email"class="form-control"id="email"name="email"aria-describedby="emailHelp"placeholder="Enter email"required>
+	<input type="email"class="form-control"id="email"name="username"aria-describedby="emailHelp"placeholder="Enter email"required>
 	</div>
 	<div class="form-group">
 	<label for="password">
