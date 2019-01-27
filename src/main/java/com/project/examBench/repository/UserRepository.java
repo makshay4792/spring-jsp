@@ -16,7 +16,7 @@ public class UserRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-	public User findUser(final User user) throws EmptyResultDataAccessException {
+	public User find(final User user) throws EmptyResultDataAccessException {
 		String sql = "SELECT * FROM users WHERE username=:username AND password=md5(:password)";
 		
 		Map<String, String> paramMap=new HashMap<>();
