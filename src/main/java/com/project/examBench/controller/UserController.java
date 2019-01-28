@@ -1,5 +1,7 @@
 package com.project.examBench.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.examBench.pojo.User;
 import com.project.examBench.service.UserService;
+import com.project.examBench.util.CommonUtil;
+import com.project.examBench.util.SessionUtility;
 
 @Controller
 @RequestMapping("/user")
@@ -16,6 +20,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private SessionUtility sessionUtility;
 	
 	@GetMapping("/register")
     public String register() {
@@ -35,12 +42,14 @@ public class UserController {
     }
 	
 	@PostMapping("/login")
-    public String login(final Model model, final User user) {
+    public String login(final Model model, final User user, final HttpSession session) {
 		String returnPage = "home";
 		User dbUser = userService.find(user);
 		if (dbUser == null) {
 			returnPage = "login";
 			model.addAttribute("isUserNotExist", Boolean.TRUE);
+		} else {
+			sessionUtility.setIntoSession(session, CommonUtil.LOGGED_IN_USER, dbUser);
 		}
 		model.addAttribute("user", dbUser);
         return returnPage;

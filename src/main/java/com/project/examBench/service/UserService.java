@@ -21,13 +21,14 @@ public class UserService {
 		users.add(user);
 		User dbUser = null;
 		dbUser = user;// has to change
+		
 		return dbUser;
 	}
 
 	public User find(final User user) {
 		User dbUser = null;
 		try {
-			dbUser = userRepository.findUser(user);
+			dbUser = userRepository.find(user);
 		} catch (EmptyResultDataAccessException e) {
 		}
 
