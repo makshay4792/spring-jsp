@@ -15,10 +15,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	private static List<User> users = new ArrayList<>();
 
 	public final User save(User user) {
-		users.add(user);
 		User dbUser = null;
 		dbUser = user;// has to change
 		

@@ -1,0 +1,7 @@
+CREATE DATABASE `exambench`CHARACTER SET utf8; 
+
+USE `exambench`; 
+
+CREATE TABLE `exambench`.`users`( `id` BIGINT NOT NULL, `username` TEXT NOT NULL, `email` TEXT NOT NULL, `password` TEXT NOT NULL, `role_id` INT, PRIMARY KEY (`id`) ) CHARSET=utf8;
+
+CREATE TABLE `exambench`.`roles`( `id` INT NOT NULL, `role` TEXT NOT NULL, PRIMARY KEY (`id`) ) CHARSET=utf8;  

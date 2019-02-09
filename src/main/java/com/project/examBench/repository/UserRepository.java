@@ -26,5 +26,9 @@ public class UserRepository {
 		
 		return dbUser;
 	}
+	
+	public void save(final User user) {
+		
+	}
 
 }
