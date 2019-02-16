@@ -30,4 +30,22 @@
 		<put-attribute name = "title" value="Home" />
 		<put-attribute name = "body" value="/WEB-INF/views/pages/home.jsp" />
 	</definition>
+	
+	<!-- Exam List Page -->
+	<definition name = "examList" extends="base-definition">
+		<put-attribute name = "title" value="Exams" />
+		<put-attribute name = "body" value="/WEB-INF/views/pages/examList.jsp" />
+	</definition>
+	
+	<!-- Exam Add/Save Page -->
+	<definition name = "exam" extends="base-definition">
+		<put-attribute name = "title" value="Exams" />
+		<put-attribute name = "body" value="/WEB-INF/views/pages/exam.jsp" />
+	</definition>
+	
+	<!-- Exam Questions Page -->
+	<definition name = "examQuestion" extends="base-definition">
+		<put-attribute name = "title" value="Exams" />
+		<put-attribute name = "body" value="/WEB-INF/views/pages/examQuestion.jsp" />
+	</definition>
 </tiles-definitions>
