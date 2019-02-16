@@ -1,0 +1,14 @@
+CREATE TABLE `exambench`.`roles` (  
+  `id` INT NOT NULL,
+  `role` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `exambench`.`users` (  
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `role` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `role` FOREIGN KEY (`role`) REFERENCES `exambench`.`roles`(`id`)
+);
