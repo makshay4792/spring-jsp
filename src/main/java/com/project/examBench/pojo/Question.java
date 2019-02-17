@@ -5,13 +5,18 @@ public class Question {
 	private Integer id;
 	private String question;
 	private String keyWords;
+	private String answer;
 
 	public Question() {
 	}
-
-	public Question(Integer id, String question, String keyWords) {
+	
+	public Question(Integer id, String question) {
 		this.id = id;
 		this.question = question;
+	}
+
+	public Question(Integer id, String question, String keyWords) {
+		this(id, question);
 		this.keyWords = keyWords;
 	}
 
@@ -39,9 +44,17 @@ public class Question {
 		this.keyWords = keyWords;
 	}
 
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", question=" + question + ", keyWords=" + keyWords + "]";
+		return "Question [id=" + id + ", question=" + question + ", keyWords=" + keyWords + ", answer=" + answer + "]";
 	}
 
 }

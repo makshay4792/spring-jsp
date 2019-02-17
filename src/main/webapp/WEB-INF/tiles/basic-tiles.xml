@@ -39,13 +39,25 @@
 	
 	<!-- Exam Add/Save Page -->
 	<definition name = "exam" extends="base-definition">
-		<put-attribute name = "title" value="Exams" />
+		<put-attribute name = "title" value="Exam" />
 		<put-attribute name = "body" value="/WEB-INF/views/pages/exam.jsp" />
 	</definition>
 	
 	<!-- Exam Questions Page -->
 	<definition name = "examQuestion" extends="base-definition">
-		<put-attribute name = "title" value="Exams" />
+		<put-attribute name = "title" value="Exam Questions" />
 		<put-attribute name = "body" value="/WEB-INF/views/pages/examQuestion.jsp" />
+	</definition>
+	
+	<!-- User Exam List Page -->
+	<definition name = "userExamList" extends="base-definition">
+		<put-attribute name = "title" value="User Exam List" />
+		<put-attribute name = "body" value="/WEB-INF/views/pages/userExamList.jsp" />
+	</definition>
+	
+	<!-- User Exam Page -->
+	<definition name = "userExamQuestion" extends="base-definition">
+		<put-attribute name = "title" value="Use Exam" />
+		<put-attribute name = "body" value="/WEB-INF/views/pages/userExamQuestion.jsp" />
 	</definition>
 </tiles-definitions>
