@@ -6,9 +6,18 @@ public class User {
 	private String username;
 	private String password;
 	private int role;
+	private String fullName;
 
 	public User() {
 		super();
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public int getRole() {
