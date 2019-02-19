@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.project.examBench.pojo.Exam;
 import com.project.examBench.pojo.Question;
 import com.project.examBench.pojo.User;
+import com.project.examBench.pojo.UserExam;
 import com.project.examBench.service.UserService;
 import com.project.examBench.util.CommonUtil;
 import com.project.examBench.util.SessionUtility;
@@ -64,7 +65,7 @@ public class UserController {
 	
 	////*******************************
 	
-	@GetMapping("/exams")
+	/*@GetMapping("/exams")
 	public String exams(final Model model) {
 		final List<Exam> exams = new ArrayList<>();
 		exams.add(new Exam(1L, "AAAAA", 5, 20));
@@ -76,6 +77,20 @@ public class UserController {
 		model.addAttribute("exams", exams);
 		model.addAttribute("questionCountDB", 3);
 		return "examList";
+	}*/
+	
+	@GetMapping("/exams")
+	public String exams(final Model model) {
+		final List<UserExam> userExams = new ArrayList<>();
+		userExams.add(new UserExam(1, new Exam(1L, "AAAAA", 5, 20), 1, 1));
+		userExams.add(new UserExam(2, new Exam(1L, "BBBBBB", 15, 30), 0, 10));
+		userExams.add(new UserExam(3, new Exam(1L, "CCCCCCC", 51, 10), 0, 101));
+		userExams.add(new UserExam(4, new Exam(1L, "DDDDDDDD", 35, 40), 2, 20));
+		userExams.add(new UserExam(5, new Exam(1L, "EEEEE", 25, 30), 1, 60));
+		
+		model.addAttribute("userExams", userExams);
+		model.addAttribute("questionCountDB", 3);
+		return "userExamList";
 	}
 	
 	@GetMapping("/exams/{id}")
@@ -85,7 +100,7 @@ public class UserController {
 		return "exam";
 	}
 	
-	@GetMapping("/exams/{id}/questions")
+	/*@GetMapping("/exams/{id}/questions")
 	public String examQuestion(final Model model, @PathVariable("id") Long id) {
 		final List<Question> questions = new ArrayList<>();
 
@@ -98,7 +113,36 @@ public class UserController {
 		model.addAttribute("exam", new Exam(4L, "EEEEE",  4, 30));
 		model.addAttribute("questions", questions);
 		return "examQuestion";
+	}*/
+	
+	@GetMapping("/exams/{id}/questions")
+	public String examQuestion(final Model model, @PathVariable("id") Long id) {
+		final List<Question> questions = new ArrayList<>();
+
+		questions.add(new Question(1, "QQQQQQQ1111"));
+		questions.add(new Question(2, "QQQQQQQ1111"));
+		questions.add(new Question(3, "QQQQQQQ1111"));
+		questions.add(new Question(4, "QQQQQQQ1111"));
+		questions.add(new Question(5, "QQQQQQQ1111"));
+		//if id is not found in DB return an empty object
+		model.addAttribute("exam", new Exam(4L, "EEEEE",  4, 30));
+		model.addAttribute("questions", questions);
+		return "userExamQuestion";
 	}
+	
+	/*@PostMapping("/exams/{id}/questions")
+	public String examQuestionPost(final Model model, @PathVariable("id") Long id, String examQuestions) {
+		System.out.println(examQuestions);
+		final List<Question> questions = new ArrayList<>();
+		Arrays.asList(examQuestions.split("||*||"))
+		.stream()
+		.forEach(examStr -> {
+			String[] elements = examStr.split("-*-");
+			questions.add(new Question(Integer.valueOf(elements[0]), elements[1], elements[2]));
+		});
+		//model.addAttribute("exam", new Exam(4L, "EEEEE",  5, 30));
+		return "examQuestion";
+	}*/
 	
 	@PostMapping("/exams/{id}/questions")
 	public String examQuestionPost(final Model model, @PathVariable("id") Long id, String examQuestions) {
@@ -108,7 +152,7 @@ public class UserController {
 		.stream()
 		.forEach(examStr -> {
 			String[] elements = examStr.split("-*-");
-			questions.add(new Question(Integer.valueOf(elements[0]), elements[1], elements[2]));
+			//questions.add(new Question(Integer.valueOf(elements[0]), elements[1], elements[2]));
 		});
 		//model.addAttribute("exam", new Exam(4L, "EEEEE",  5, 30));
 		return "examQuestion";
