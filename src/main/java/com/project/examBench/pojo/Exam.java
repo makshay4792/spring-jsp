@@ -1,21 +1,59 @@
 package com.project.examBench.pojo;
 
+import java.util.List;
+
 public class Exam {
 
 	private Long id;
-	private String exam;
+	private String examName;
+	private String decsription;
 	private Integer questionCount;
 	private Integer durationInMin;
-
+	private List<Question> questions;
+	private double totalMarks;
+	private double obtainedMarks;
+	
 	public Exam() {
 	}
 
-	public Exam(Long id, String exam, Integer questionCount, Integer durationInMin) {
+	public Exam(Long id, String examName, Integer questionCount, Integer durationInMin) {
 		super();
 		this.id = id;
-		this.exam = exam;
+		this.examName = examName;
 		this.questionCount = questionCount;
 		this.durationInMin = durationInMin;
+	}
+
+	public String getDecsription() {
+		return decsription;
+	}
+
+	public void setDecsription(String decsription) {
+		this.decsription = decsription;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+
+	public double getTotalMarks() {
+		return totalMarks;
+	}
+
+	public void setTotalMarks(double totalMarks) {
+		this.totalMarks = totalMarks;
+	}
+
+	public double getObtainedMarks() {
+		return obtainedMarks;
+	}
+
+	public void setObtainedMarks(double obtainedMarks) {
+		this.obtainedMarks = obtainedMarks;
 	}
 
 	public Long getId() {
@@ -26,12 +64,12 @@ public class Exam {
 		this.id = id;
 	}
 
-	public String getExam() {
-		return exam;
+	public String getExamName() {
+		return examName;
 	}
 
-	public void setExam(String exam) {
-		this.exam = exam;
+	public void setExamName(String examName) {
+		this.examName = examName;
 	}
 
 	public Integer getQuestionCount() {
