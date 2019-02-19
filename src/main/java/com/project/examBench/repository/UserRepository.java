@@ -1,6 +1,9 @@
 package com.project.examBench.repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +25,25 @@ public class UserRepository {
 		Map<String, String> paramMap=new HashMap<>();
 		paramMap.put("username", user.getUsername());
 		paramMap.put("password", user.getPassword());
-		User dbUser = namedParameterJdbcTemplate.queryForObject(sql, paramMap, User.class);
+		List<User> dbUser = namedParameterJdbcTemplate.query(sql, paramMap, (resultSet, i) -> {
+            return toUser(resultSet);
+        });
+		if(dbUser.size()>0)
+			return dbUser.get(0);
+		else
+			return null;
+	}
+	
+	private User toUser(ResultSet resultSet) throws SQLException {
+		User user=new User();
+		user.setId(resultSet.getLong("id"));
+		user.setUsername(resultSet.getString("username"));
+		user.setRole(resultSet.getInt("role"));
+		return user;
 		
-		return dbUser;
+	}
+	public void save(final User user) {
+		
 	}
 
 }
