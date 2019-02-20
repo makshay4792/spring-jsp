@@ -18,7 +18,20 @@ public class ExamService {
 	@Autowired
 	private ExamRepository examRepository;
 	
-	private Exam evaluate(Exam exam) {
+	public int saveExam(Exam exam) {
+		int examid=examRepository.saveExam(exam);
+		return examid;
+	}
+	
+	public Exam getExam(int examId) {
+		return examRepository.getExam(examId);
+	}
+	
+	public List<Exam> getAllExams(){
+		return examRepository.getAllExams();
+	}
+	
+	public Exam evaluate(Exam exam) {
 		double marks=0;
 		for(Question q:exam.getQuestions()) {
 			q.setObtainedMarks(this.calculateMarks(q.getKeyWords(), q.getAnswer(), q.getMaxMarks()));

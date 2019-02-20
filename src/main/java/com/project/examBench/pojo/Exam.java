@@ -12,6 +12,7 @@ public class Exam {
 	private List<Question> questions;
 	private double totalMarks;
 	private double obtainedMarks;
+	private double passingMarks;
 	
 	public Exam() {
 	}
@@ -22,6 +23,14 @@ public class Exam {
 		this.examName = examName;
 		this.questionCount = questionCount;
 		this.durationInMin = durationInMin;
+	}
+
+	public double getPassingMarks() {
+		return passingMarks;
+	}
+
+	public void setPassingMarks(double passingMarks) {
+		this.passingMarks = passingMarks;
 	}
 
 	public String getDecsription() {
