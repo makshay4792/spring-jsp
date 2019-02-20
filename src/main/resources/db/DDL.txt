@@ -36,3 +36,13 @@ CREATE TABLE `exambench`.`questions` (
   PRIMARY KEY (`id`),
   CONSTRAINT `exam_constraint` FOREIGN KEY (`exam_id`) REFERENCES `exambench`.`exam`(`id`)
 );
+
+CREATE TABLE `exambench`.`userexamresult` (  
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userid` INT NOT NULL,
+  `examid` INT NOT NULL,
+  `marks_obtained` DECIMAL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `exambench`.`users`(`id`),
+  CONSTRAINT `examid` FOREIGN KEY (`examid`) REFERENCES `exambench`.`exam`(`id`)
+);
