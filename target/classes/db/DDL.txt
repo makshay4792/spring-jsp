@@ -12,3 +12,37 @@ CREATE TABLE `exambench`.`users` (
   PRIMARY KEY (`id`),
   CONSTRAINT `role` FOREIGN KEY (`role`) REFERENCES `exambench`.`roles`(`id`)
 );
+
+CREATE TABLE `exambench`.`exam` (  
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255),
+  `question_count` INT NOT NULL,
+  `duration` INT NOT NULL,
+  `total_marks` INT DEFAULT 0,
+  PRIMARY KEY (`id`)
+);
+
+ALTER TABLE `exambench`.`exam`   
+	ADD COLUMN `passing_marks` INT DEFAULT 0 NULL AFTER `total_marks`;
+
+CREATE TABLE `exambench`.`questions` (  
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `question` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255),
+  `keywords` VARCHAR(255),
+  `marks` INT DEFAULT 0,
+  `exam_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `exam_constraint` FOREIGN KEY (`exam_id`) REFERENCES `exambench`.`exam`(`id`)
+);
+
+CREATE TABLE `exambench`.`userexamresult` (  
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userid` INT NOT NULL,
+  `examid` INT NOT NULL,
+  `marks_obtained` DECIMAL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `exambench`.`users`(`id`),
+  CONSTRAINT `examid` FOREIGN KEY (`examid`) REFERENCES `exambench`.`exam`(`id`)
+);
