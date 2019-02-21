@@ -18,13 +18,13 @@
 					<td>${userExams.exam.questionCount}</td>
 					<td>${userExams.exam.durationInMin}</td>
 					<td>
-						<a href="<c:url value="/user/register"/>">
+						<a href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}"/>">
 							<c:choose>
 								<c:when test="${userExams.examStatus eq 0}">
 									<spring:message code="user.exam.take" />
 								</c:when>
-								<c:when test="${userExams.examStatus eq 2}">
-									<spring:message code="user.exam.retake" />
+								<c:when test="${userExams.examStatus eq 1}">
+									<spring:message code="user.exam.result" />
 								</c:when>
 								<c:otherwise>
 									<spring:message code="user.exam.resume" />

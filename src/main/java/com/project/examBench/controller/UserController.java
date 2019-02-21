@@ -2,6 +2,7 @@ package com.project.examBench.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class UserController {
     }
 
 	@PostMapping("/register")
-    public String register(final Model model, final User user) {
+    public String register(final Model model, @ModelAttribute("user") User user) {
 		Boolean registerSuccessfully = Boolean.FALSE;
 		User dbUser = userService.save(user);
 		
@@ -52,6 +53,9 @@ public class UserController {
 			registerSuccessfully = Boolean.TRUE;
 		}
 		model.addAttribute("registerSuccessfully", registerSuccessfully);
+		if(registerSuccessfully) {
+			return "login";
+		}
         return "register";
     }
 	
@@ -68,7 +72,9 @@ public class UserController {
 				model.addAttribute("exams", examService.getAllExams());
 				returnPage = "examList";
 			}else {
-				returnPage = "exam";
+				model.addAttribute("userExams", examService.getUserExams(dbUser.getId()));
+				model.addAttribute("userId",dbUser.getId());
+				returnPage = "userExamList";
 			}
 		}
 		model.addAttribute("user", dbUser);
@@ -132,17 +138,42 @@ public class UserController {
 		return returnPage;
 	}
 	
-	//@PostMapping("/exams/{id}/questions")
-	public String examQuestionPost(final Model model, @PathVariable("id") Long id, String examQuestions) {
-		System.out.println(examQuestions);
-		final List<Question> questions = new ArrayList<>();
-		Arrays.asList(examQuestions.split("||*||"))
-		.stream()
-		.forEach(examStr -> {
-			String[] elements = examStr.split("-*-");
-			//questions.add(new Question(Integer.valueOf(elements[0]), elements[1], elements[2]));
-		});
-		//model.addAttribute("exam", new Exam(4L, "EEEEE",  5, 30));
-		return "examQuestion";
+	@GetMapping("/questionpaper/{examId}/{userId}")
+	public String takeExam(final Model model,@PathVariable("examId") int examId,@PathVariable("userId") int userId) {
+		UserExam userExam=examService.getUserExam(examId,userId);
+		if(userExam.getMarksObtained()==-1) {
+			model.addAttribute("exam", userExam.getExam());
+			model.addAttribute("questionCount",userExam.getExam().getQuestionCount());
+			model.addAttribute("questions",userExam.getExam().getQuestions());
+			model.addAttribute("userId", userId);
+			return "userExamQuestion";
+		}else {
+			return "result";
+		}
+	}
+	
+	@PostMapping("/exams/evaluate/{examId}/{userId}")
+	public String examQuestionPost(final Model model,String examQuestions,@PathVariable("examId") int examId,@PathVariable("userId") int userId) {
+		Exam exam=examService.getExam(examId);
+		if(examQuestions.contains("#") && examQuestions.contains("@")) {
+			exam=this.getAnswers(exam, examQuestions);
+			exam=examService.evaluate(exam);
+		}
+		// call Result page here
+		return "login";
+	}
+	
+	private Exam getAnswers(Exam exam,String answers) {
+		String[] questionAnswer=answers.split("#");
+		String[] question=null;
+		List<Question> questionList=exam.getQuestions();
+		if(questionList.size()==questionAnswer.length) {
+			for(int i=0;i<questionAnswer.length;i++) {
+				question=questionAnswer[i].split("@");
+				questionList.get(i).setAnswer(question[2]);
+			}
+		}
+		exam.setQuestions(questionList);
+		return exam;
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.examBench.pojo.Exam;
 import com.project.examBench.pojo.Question;
+import com.project.examBench.pojo.UserExam;
 import com.project.examBench.repository.ExamRepository;
 import com.project.examBench.util.CommonUtil;
 
@@ -41,6 +42,14 @@ public class ExamService {
 			return exam;
 		}
 		return examRepository.getExam(examId);
+	}
+	
+	public List<UserExam> getUserExams(int userId){
+		return examRepository.getUserExams(userId);
+	}
+	
+	public UserExam getUserExam(int examId,int userId){
+		return examRepository.getUserExam(examId,userId);
 	}
 	
 	public List<Exam> getAllExams(){

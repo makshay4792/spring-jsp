@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.examBench.pojo.Exam;
 import com.project.examBench.pojo.Question;
+import com.project.examBench.pojo.UserExam;
 
 @Repository
 public class ExamRepository {
@@ -110,6 +111,57 @@ public class ExamRepository {
 		return qList;
 	}
 
+	public List<UserExam> getUserExams(int userId){
+		String sqlSelect="SELECT exam.id,NAME,description,question_count,duration,total_marks,passing_marks, " + 
+				"IFNULL(userexamresult.marks_obtained,-1) AS marks_obtained " + 
+				"FROM exam LEFT JOIN userexamresult ON (exam.id=userexamresult.examid AND userexamresult.userid= "+userId+ ") " + 
+				"LEFT JOIN users ON (userexamresult.userid=users.id) ";
+		@SuppressWarnings("unchecked")
+		List<UserExam> userExamList = namedParameterJdbcTemplate.query(sqlSelect, (HashMap)null, (resultSet, i) -> {
+            return toUserExam(resultSet);
+        });
+		return userExamList;
+	}
+	
+	public UserExam getUserExam(int examId,int userId){
+		String sqlSelect="SELECT exam.id,NAME,description,question_count,duration,total_marks,passing_marks, " + 
+				"IFNULL(userexamresult.marks_obtained,-1) AS marks_obtained " + 
+				"FROM exam LEFT JOIN userexamresult ON (exam.id=userexamresult.examid AND userexamresult.userid= "+userId+ ") " + 
+				"LEFT JOIN users ON (userexamresult.userid=users.id) where exam.id = "+examId;
+		@SuppressWarnings("unchecked")
+		List<UserExam> userExamList = namedParameterJdbcTemplate.query(sqlSelect, (HashMap)null, (resultSet, i) -> {
+            return toUserExam(resultSet);
+        });
+		if(userExamList.size()>0) {
+			return userExamList.get(0);
+		}
+		return null;
+	}
+	
+	private UserExam toUserExam(ResultSet rs) throws SQLException {
+		UserExam ue=new UserExam();
+		Exam e=new Exam();
+		e.setExamName(rs.getString("name"));
+		e.setId(rs.getLong("id"));
+		e.setQuestionCount(rs.getInt("question_count"));
+		e.setDurationInMin(rs.getInt("duration"));
+		e.setTotalMarks(rs.getDouble("total_marks"));
+		e.setPassingMarks(rs.getDouble("passing_marks"));
+		e.setQuestions(this.getAllQuestions(e.getId()));
+		ue.setExam(e);
+		if(rs.getInt("marks_obtained")==-1) {
+			ue.setExamStatus(0);
+		}else {
+			ue.setExamStatus(1);
+		}
+		ue.setMarksObtained(rs.getDouble("marks_obtained"));
+		if(ue.getExam().getPassingMarks()>ue.getMarksObtained()) {
+			ue.setPass(false);
+		}else {
+			ue.setPass(true);
+		}
+		return ue;
+	}
 	private Question toQuestion(ResultSet rs) throws SQLException {
 		Question question = new Question();
 		question.setDescription(rs.getString("description"));

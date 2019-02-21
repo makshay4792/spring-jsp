@@ -18,7 +18,7 @@
 	</c:forEach>
 	<button id="creatQuestion" type="button"class="btnbtn-primary"><spring:message code="user.register.submit"/></button>
 	
-	<form id="examQuestionsForm" action="<c:url value="/user/exams/${exam.id}/questions"/>" method="post">
+	<form id="examQuestionsForm" action="<c:url value="/user/exams/${exam.id}/questions/all"/>" method="post">
 		<input type="hidden" id="examQuestions" name="examQuestions" value="">
 	</form>
 </div>

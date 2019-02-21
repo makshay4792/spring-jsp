@@ -37,19 +37,20 @@ public class UserRepository {
 	
 	private User toUser(ResultSet resultSet) throws SQLException {
 		User user=new User();
-		user.setId(resultSet.getLong("id"));
+		user.setId(resultSet.getInt("id"));
 		user.setUsername(resultSet.getString("username"));
 		user.setRole(resultSet.getInt("role"));
 		return user;
 		
 	}
 	public User save(User user) {
+		user.setRole(2);
 		String sqlInsert = "INSERT INTO users (username,PASSWORD,role) VALUES (:username,MD5(:password),:role)";
 		
 		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(user));
 		
-		String sqlSelect="SELECT IFNULL(MAX(id),-1) FROM user";
-		long userId=(long) namedParameterJdbcTemplate.queryForObject(sqlSelect,(HashMap)null ,Long.class);
+		String sqlSelect="SELECT IFNULL(MAX(id),-1) FROM users";
+		int userId=(int) namedParameterJdbcTemplate.queryForObject(sqlSelect,(HashMap)null ,Long.class);
 		user.setId(userId);
 		return user;
 	}
