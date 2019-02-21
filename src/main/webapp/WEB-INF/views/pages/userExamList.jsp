@@ -14,7 +14,7 @@
 			<c:forEach items="${userExams}" var="userExams">
 				<tr>
 					<td>${userExams.exam.id}</td>
-					<td>${userExams.exam.exam}</td>
+					<td>${userExams.exam.examName}</td>
 					<td>${userExams.exam.questionCount}</td>
 					<td>${userExams.exam.durationInMin}</td>
 					<td>

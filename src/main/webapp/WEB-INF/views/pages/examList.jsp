@@ -1,7 +1,11 @@
 <%@include file="../tags/commonTags.jsp"%>
+
 <div class="container">
 	<div class="d-flex flex-row-reverse mb-2">
-		<button type="button" class="btn btn-primary">Add Exam</button>
+		<form action="<c:url value="/user/exams/0"/>" method="get">
+			<button type="submit" class="btn btn-primary">Add Exam</button>
+			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
+		</form>
 	</div>
 
 	<table class="table table-hover">
@@ -18,23 +22,16 @@
 			<c:forEach items="${exams}" var="exam">
 				<tr>
 					<td>${exam.id}</td>
-					<td>${exam.exam}</td>
+					<td>${exam.examName}</td>
 					<td>${exam.questionCount}</td>
 					<td>${exam.durationInMin}</td>
 					<td>
-						<a href="<c:url value="/user/register"/>">
+						<a href="<c:url value="/user/exams/${exam.id}"/>">
 							<spring:message code="exam.view" />
 						</a>
 						&nbsp;|&nbsp;
-						<a href="<c:url value="/user/register"/>">
-							<c:choose>
-								<c:when test="${questionCountDB gt 0}">
-									<spring:message code="exam.view.question" />
-								</c:when>
-								<c:otherwise>
-									<spring:message code="exam.add.question" />
-								</c:otherwise>
-							</c:choose>
+						<a href="<c:url value="/user/exams/${exam.id}/questions"/>">
+							<spring:message code="exam.view.question" />
 						</a>
 					</td>
 				</tr>

@@ -1,8 +1,5 @@
 package com.project.examBench.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -15,11 +12,9 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-
-	public final User save(User user) {
+	public User save(User user) {
 		User dbUser = null;
-		dbUser = user;// has to change
-		
+		dbUser = userRepository.save(user);
 		return dbUser;
 	}
 
@@ -32,5 +27,4 @@ public class UserService {
 
 		return dbUser;
 	}
-
 }

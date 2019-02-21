@@ -1,10 +1,14 @@
 package com.project.examBench.repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,13 +26,32 @@ public class UserRepository {
 		Map<String, String> paramMap=new HashMap<>();
 		paramMap.put("username", user.getUsername());
 		paramMap.put("password", user.getPassword());
-		User dbUser = namedParameterJdbcTemplate.queryForObject(sql, paramMap, User.class);
-		
-		return dbUser;
+		List<User> dbUser = namedParameterJdbcTemplate.query(sql, paramMap, (resultSet, i) -> {
+            return toUser(resultSet);
+        });
+		if(dbUser.size()>0)
+			return dbUser.get(0);
+		else
+			return null;
 	}
 	
-	public void save(final User user) {
+	private User toUser(ResultSet resultSet) throws SQLException {
+		User user=new User();
+		user.setId(resultSet.getLong("id"));
+		user.setUsername(resultSet.getString("username"));
+		user.setRole(resultSet.getInt("role"));
+		return user;
 		
+	}
+	public User save(User user) {
+		String sqlInsert = "INSERT INTO users (username,PASSWORD,role) VALUES (:username,MD5(:password),:role)";
+		
+		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(user));
+		
+		String sqlSelect="SELECT IFNULL(MAX(id),-1) FROM user";
+		long userId=(long) namedParameterJdbcTemplate.queryForObject(sqlSelect,(HashMap)null ,Long.class);
+		user.setId(userId);
+		return user;
 	}
 
 }
