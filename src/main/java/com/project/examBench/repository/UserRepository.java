@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -42,8 +43,15 @@ public class UserRepository {
 		return user;
 		
 	}
-	public void save(final User user) {
+	public User save(User user) {
+		String sqlInsert = "INSERT INTO users (username,PASSWORD,role) VALUES (:username,MD5(:password),:role)";
 		
+		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(user));
+		
+		String sqlSelect="SELECT IFNULL(MAX(id),-1) FROM user";
+		long userId=(long) namedParameterJdbcTemplate.queryForObject(sqlSelect,(HashMap)null ,Long.class);
+		user.setId(userId);
+		return user;
 	}
 
 }

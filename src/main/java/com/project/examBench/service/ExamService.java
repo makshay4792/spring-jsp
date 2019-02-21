@@ -23,12 +23,36 @@ public class ExamService {
 		return examid;
 	}
 	
-	public Exam getExam(int examId) {
+	public int saveQuestion(Question question) {
+		int qId=examRepository.saveQuestion(question);
+		return qId;
+	}
+	
+	public Exam getExam(long examId) {
+		Exam exam=examRepository.getExam(examId);
+		if(exam==null) {
+			exam=new Exam();
+			exam.setExamName("");
+			exam.setId(0l);
+			exam.setDurationInMin(0);
+			exam.setPassingMarks(0);
+			exam.setQuestionCount(0);
+			exam.setTotalMarks(0);
+			return exam;
+		}
 		return examRepository.getExam(examId);
 	}
 	
 	public List<Exam> getAllExams(){
 		return examRepository.getAllExams();
+	}
+	
+	public List<Question> getAllQuestions(long examId){
+		return examRepository.getAllQuestions(examId);
+	}
+	
+	public Question getQuestions(long examId,long questionId){
+		return examRepository.getQuestions(examId,questionId);
 	}
 	
 	public Exam evaluate(Exam exam) {

@@ -5,20 +5,47 @@ import java.util.List;
 public class Question {
 
 	private Integer id;
+	private int srNo;
 	private String question;
 	private String description;
 	private List<String> keyWords;
+	private String keys;
 	private String answer;
 	private double maxMarks;
 	private double obtainedMarks;
 	private String modelAnswer;
+	private int examCode;
 
 	public Question() {
 	}
 	
+	public String getKeys() {
+		return keys;
+	}
+
+	public void setKeys(String keys) {
+		this.keys = keys;
+	}
+
 	public Question(Integer id, String question) {
 		this.id = id;
 		this.question = question;
+	}
+
+	public int getExamCode() {
+		return examCode;
+	}
+
+	public void setExamCode(int examCode) {
+		this.examCode = examCode;
+	}
+
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
 	}
 
 	public Integer getId() {
