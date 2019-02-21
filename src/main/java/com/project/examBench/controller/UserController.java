@@ -75,15 +75,6 @@ public class UserController {
         return returnPage;
     }
 	
-	@PostMapping("/updateQuestion/{id}")
-	public String updateQuestion(@ModelAttribute("userDto") Question question,Model model,@PathVariable("id") Long id) {
-		Map<String, Object> modelMap=model.asMap();
-		examService.saveQuestion(question);
-		model.addAttribute("exams", examService.getAllExams());
-		String returnPage = "examList"; 
-		return returnPage;
-	}
-	
 	@PostMapping("/updateExams/{id}")
 	public String updateExam(@ModelAttribute("userDto") Exam exam,Model model,@PathVariable("id") Long id) {
 		Map<String, Object> modelMap=model.asMap();
@@ -126,12 +117,22 @@ public class UserController {
 	@GetMapping("/exams/{examId}/questions/{id}")
 	public String getQuestion(Model model, @PathVariable("examId") long examId,@PathVariable("id") long id) {
 		Question question=examService.getQuestions(examId, id);
-		model.addAttribute("examId", id);
+		model.addAttribute("examId", examId);
 		model.addAttribute("question", question);
 		return "question";
 	}
 	
-	@PostMapping("/exams/{id}/questions")
+	@PostMapping("/exams/{examId}/questions/{id}")
+	public String updateQuestion(@ModelAttribute("questionDto") Question question,Model model,@PathVariable("examId") int examId,@PathVariable("id") int id) {
+		question.setExamCode(examId);
+		examService.saveQuestion(question);
+		model.addAttribute("questions", examService.getAllQuestions(examId));
+		model.addAttribute("examId", examId);
+		String returnPage = "questionList"; 
+		return returnPage;
+	}
+	
+	//@PostMapping("/exams/{id}/questions")
 	public String examQuestionPost(final Model model, @PathVariable("id") Long id, String examQuestions) {
 		System.out.println(examQuestions);
 		final List<Question> questions = new ArrayList<>();

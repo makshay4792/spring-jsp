@@ -52,7 +52,15 @@ public class ExamService {
 	}
 	
 	public Question getQuestions(long examId,long questionId){
-		return examRepository.getQuestions(examId,questionId);
+		Question question=examRepository.getQuestions(examId,questionId);
+		if(question==null) {
+			question=new Question();
+			question.setAnswer("");
+			question.setQuestion("");
+			question.setKeys("");
+			question.setMaxMarks(0);
+		}
+		return question;
 	}
 	
 	public Exam evaluate(Exam exam) {

@@ -2,7 +2,7 @@
 
 <div class="container">
 	<div class="d-flex flex-row-reverse mb-2">
-		<form action="<c:url value="/user/exams/0"/>" method="get">
+		<form action="<c:url value="/user/exams/${examId}/questions/0"/>" method="get">
 			<button type="submit" class="btn btn-primary">Add Question</button>
 			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
 		</form>

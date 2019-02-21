@@ -48,7 +48,23 @@ public class ExamRepository {
 	
 	@SuppressWarnings("unchecked")
 	public int saveQuestion(Question question) {
-		return 0;
+		int qId=-1;
+		try {
+			qId=(int) namedParameterJdbcTemplate.queryForObject("SELECT IFNULL(id,-1) FROM questions WHERE questions.id= "+question.getId()
+			,(HashMap)null ,Integer.class);
+		}catch(EmptyResultDataAccessException e) {
+			
+		}
+		String sqlInsert ="INSERT INTO questions (question,keywords,marks,exam_id) values(:question,:keys,:maxMarks,:examCode)";
+		if(qId<0) {
+			namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(question));
+			String sqlSelect="SELECT IFNULL(MAX(id),-1) FROM questions";
+			qId=(int) namedParameterJdbcTemplate.queryForObject(sqlSelect,(HashMap)null ,Integer.class);
+		}else {
+			String sqlUpdate="update questions set question=:question,keywords=:keys,marks=:maxMarks where id=:id and exam_id=:examCode";
+			namedParameterJdbcTemplate.update(sqlUpdate, new BeanPropertySqlParameterSource(question));
+		}
+		return qId;
 	}
 		
 	public Exam getExam(long examId) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Question {
 
-	private Integer id;
+	private int id;
 	private int srNo;
 	private String question;
 	private String description;
@@ -48,11 +48,11 @@ public class Question {
 		this.srNo = srNo;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

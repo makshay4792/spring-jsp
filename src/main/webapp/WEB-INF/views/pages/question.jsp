@@ -2,7 +2,7 @@
 
 <div class="container">
 	<div class="d-flex justify-content-center">
-		<form action="<c:url value="/user/exams/${examId}/questions"/>" name="exam" method="post">
+		<form action="<c:url value="/user/exams/${examId}/questions/${question.id}"/>" name="question" method="post">
 			<div class="form-group">
 				<label for="Question"> <spring:message code="exam.question" />
 				</label> 
