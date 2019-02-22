@@ -72,10 +72,17 @@ public class ExamService {
 		return question;
 	}
 	
+	public int saveResult(int userId,int examId,Exam exam) {
+		return examRepository.saveResult(userId, examId, exam);
+	}
 	public Exam evaluate(Exam exam) {
 		double marks=0;
 		for(Question q:exam.getQuestions()) {
-			q.setObtainedMarks(this.calculateMarks(q.getKeyWords(), q.getAnswer(), q.getMaxMarks()));
+			if( q.getAnswer()==null || "".equalsIgnoreCase(q.getAnswer())) {
+				q.setObtainedMarks(0);
+			}else {
+				q.setObtainedMarks(this.calculateMarks(q.getKeyWords(), q.getAnswer(), q.getMaxMarks()));
+			}
 			marks+=q.getObtainedMarks();
 		}
 		exam.setObtainedMarks(marks);

@@ -59,6 +59,10 @@ public class UserController {
         return "register";
     }
 	
+	@GetMapping("/home")
+    public String login(final Model model) {
+		return "home";
+	}
 	@PostMapping("/login")
     public String login(final Model model, final User user, final HttpSession session) {
 		String returnPage = "home";
@@ -155,12 +159,20 @@ public class UserController {
 	@PostMapping("/exams/evaluate/{examId}/{userId}")
 	public String examQuestionPost(final Model model,String examQuestions,@PathVariable("examId") int examId,@PathVariable("userId") int userId) {
 		Exam exam=examService.getExam(examId);
+		String result="Fail";
 		if(examQuestions.contains("#") && examQuestions.contains("@")) {
 			exam=this.getAnswers(exam, examQuestions);
 			exam=examService.evaluate(exam);
+			if(exam.getPassingMarks()<=exam.getObtainedMarks()) {
+				result="Pass";
+			}
+			model.addAttribute("exam",exam);
+			model.addAttribute("result",result);
+			model.addAttribute("questions",exam.getQuestions());
+			examService.saveResult(userId, examId, exam);
 		}
 		// call Result page here
-		return "login";
+		return "result";
 	}
 	
 	private Exam getAnswers(Exam exam,String answers) {
@@ -170,7 +182,9 @@ public class UserController {
 		if(questionList.size()==questionAnswer.length) {
 			for(int i=0;i<questionAnswer.length;i++) {
 				question=questionAnswer[i].split("@");
-				questionList.get(i).setAnswer(question[2]);
+				if(question!=null && question.length>2) {
+					questionList.get(i).setAnswer(question[2]);
+				}
 			}
 		}
 		exam.setQuestions(questionList);

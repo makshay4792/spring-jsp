@@ -67,7 +67,10 @@ public class ExamRepository {
 		}
 		return qId;
 	}
-		
+	
+	public int saveResult(int userId,int examId,Exam exam) {
+		return 0;
+	}
 	public Exam getExam(long examId) {
 		String sqlSelect = "select id,name,description,question_count,duration,total_marks,passing_marks from exam where exam.id = "+examId;
 		@SuppressWarnings("unchecked")
@@ -112,10 +115,11 @@ public class ExamRepository {
 	}
 
 	public List<UserExam> getUserExams(int userId){
-		String sqlSelect="SELECT exam.id,NAME,description,question_count,duration,total_marks,passing_marks, " + 
+		String sqlSelect="SELECT DISTINCT exam.id,NAME,exam.description,question_count,duration,total_marks,passing_marks, " + 
 				"IFNULL(userexamresult.marks_obtained,-1) AS marks_obtained " + 
 				"FROM exam LEFT JOIN userexamresult ON (exam.id=userexamresult.examid AND userexamresult.userid= "+userId+ ") " + 
-				"LEFT JOIN users ON (userexamresult.userid=users.id) ";
+				"LEFT JOIN users ON (userexamresult.userid=users.id) "+
+				"inner join questions on (exam.id=questions.exam_id) ";
 		@SuppressWarnings("unchecked")
 		List<UserExam> userExamList = namedParameterJdbcTemplate.query(sqlSelect, (HashMap)null, (resultSet, i) -> {
             return toUserExam(resultSet);
@@ -148,6 +152,8 @@ public class ExamRepository {
 		e.setTotalMarks(rs.getDouble("total_marks"));
 		e.setPassingMarks(rs.getDouble("passing_marks"));
 		e.setQuestions(this.getAllQuestions(e.getId()));
+		e.setQuestionCount(e.getQuestions().size());
+		e.setTotalMarks(this.getTotalMarks(e.getQuestions()));
 		ue.setExam(e);
 		if(rs.getInt("marks_obtained")==-1) {
 			ue.setExamStatus(0);
@@ -187,6 +193,16 @@ public class ExamRepository {
 		exam.setQuestionCount(rs.getInt("question_count"));
 		exam.setTotalMarks(rs.getDouble("total_marks"));
 		exam.setQuestions(this.getAllQuestions(exam.getId()));
+		exam.setQuestionCount(exam.getQuestions().size());
+		exam.setTotalMarks(this.getTotalMarks(exam.getQuestions()));
 		return exam;
+	}
+	
+	private double getTotalMarks(List<Question> questionList) {
+		double totalMarks=0;
+		for(Question q:questionList) {
+			totalMarks+=q.getMaxMarks();
+		}
+		return totalMarks;
 	}
 }
