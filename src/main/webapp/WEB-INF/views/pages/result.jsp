@@ -2,6 +2,12 @@
 
 <div class="container">
 
+	<div class="d-flex flex-row-reverse mb-2">
+		<form action="<c:url value="/user/logout"/>" method="post">
+			<button type="submit" class="btn btn-primary">Logout</button>
+			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
+		</form>
+	</div>
 	<table class="table table-hover">
 		<thead code="exam.result.overall">
 			<tr>

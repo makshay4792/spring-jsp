@@ -1,3 +1,5 @@
-<%@include file="../tags/commonTags.jsp" %>
+<%@include file="../tags/commonTags.jsp"%>
 
-<spring:message code="user.home.welcome"/> <c:out value="${user.fullName}" />,
+<spring:message code="user.home.welcome" />
+<c:out value="${user.fullName}" />
+,

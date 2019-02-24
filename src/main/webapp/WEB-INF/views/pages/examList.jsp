@@ -6,6 +6,12 @@
 			<button type="submit" class="btn btn-primary">Add Exam</button>
 			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
 		</form>
+		&nbsp;&nbsp;
+		<form action="<c:url value="/user/logout"/>"
+			method="post">
+			<button type="submit" class="btn btn-primary">Logout</button>
+			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
+		</form>
 	</div>
 
 	<table class="table table-hover">
@@ -25,15 +31,15 @@
 					<td>${exam.examName}</td>
 					<td>${exam.questionCount}</td>
 					<td>${exam.durationInMin}</td>
-					<td>
-						<a href="<c:url value="/user/exams/${exam.id}"/>">
-							<spring:message code="exam.view" />
-						</a>
-						&nbsp;|&nbsp;
-						<a href="<c:url value="/user/exams/${exam.id}/questions"/>">
-							<spring:message code="exam.view.question" />
-						</a>
-					</td>
+					<td><a href="<c:url value="/user/exams/${exam.id}"/>"> <spring:message
+								code="exam.view" />
+					</a> &nbsp;|&nbsp; <a
+						href="<c:url value="/user/exams/${exam.id}/questions"/>"> <spring:message
+								code="exam.view.question" />
+					</a> &nbsp;|&nbsp; <a
+						href="<c:url value="/user/exams/${exam.id}/questions"/>"> <spring:message
+								code="admin.result" />
+					</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

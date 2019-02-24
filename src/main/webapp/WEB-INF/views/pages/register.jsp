@@ -12,7 +12,8 @@
 </c:if>
 
 <div class="d-flex justify-content-center">
-	<form action="<c:url value="/user/register"/>" method="post" name="user">
+	<form action="<c:url value="/user/register"/>" method="post"
+		name="user">
 		<div class="form-group">
 			<label for="fullName"> <spring:message
 					code="user.register.fullName" />

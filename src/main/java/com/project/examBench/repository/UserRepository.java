@@ -50,8 +50,8 @@ public class UserRepository {
 		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(user));
 		
 		String sqlSelect="SELECT IFNULL(MAX(id),-1) FROM users";
-		int userId=(int) namedParameterJdbcTemplate.queryForObject(sqlSelect,(HashMap)null ,Long.class);
-		user.setId(userId);
+		long userId=(long) namedParameterJdbcTemplate.queryForObject(sqlSelect,(HashMap)null ,Long.class);
+		user.setId(Integer.parseInt(userId+""));
 		return user;
 	}
 

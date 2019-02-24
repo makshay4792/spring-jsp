@@ -1,5 +1,11 @@
 <%@include file="../tags/commonTags.jsp"%>
 <div class="container">
+	<div class="d-flex flex-row-reverse mb-2">
+		<form action="<c:url value="/user/logout"/>" method="post">
+			<button type="submit" class="btn btn-primary">Logout</button>
+			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
+		</form>
+	</div>
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -17,8 +23,8 @@
 					<td>${userExams.exam.examName}</td>
 					<td>${userExams.exam.questionCount}</td>
 					<td>${userExams.exam.durationInMin}</td>
-					<td>
-						<a href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}"/>">
+					<td><a
+						href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}"/>">
 							<c:choose>
 								<c:when test="${userExams.examStatus eq 0}">
 									<spring:message code="user.exam.take" />
@@ -30,8 +36,7 @@
 									<spring:message code="user.exam.resume" />
 								</c:otherwise>
 							</c:choose>
-						</a>
-					</td>
+					</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

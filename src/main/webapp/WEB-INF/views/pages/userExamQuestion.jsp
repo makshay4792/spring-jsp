@@ -1,6 +1,12 @@
 <%@include file="../tags/commonTags.jsp"%>
 
 <div class="container">
+	<div class="d-flex flex-row-reverse mb-2">
+		<form action="<c:url value="/user/logout"/>" method="post">
+			<button type="submit" class="btn btn-primary">Logout</button>
+			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
+		</form>
+	</div>
 	<c:set value="${fn:length(questions)}" var="questionCount" />
 	<c:forEach begin="1" end="${questionCount}" var="qNo">
 		<c:set value="${questions[qNo-1]}" var="question" />
