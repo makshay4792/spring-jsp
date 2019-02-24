@@ -39,6 +39,10 @@ public class UserController {
 	@Autowired
 	private SessionUtility sessionUtility;
 
+	@GetMapping("/timer")
+	public String getTimer() {
+		return "timer";
+	}
 	@GetMapping("/register")
 	public String register() {
 		return "register";
@@ -190,6 +194,7 @@ public class UserController {
 				model.addAttribute("questionCount", userExam.getExam().getQuestionCount());
 				model.addAttribute("questions", userExam.getExam().getQuestions());
 				model.addAttribute("userId", userId);
+				model.addAttribute("timerinMinute", userExam.getExam().getDurationInMin());
 				return "userExamQuestion";
 			} else {
 				return "result";

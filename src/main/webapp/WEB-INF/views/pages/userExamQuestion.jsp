@@ -6,6 +6,8 @@
 			<button type="submit" class="btn btn-primary">Logout</button>
 			<!-- <button type="submit"class="btnbtn-primary"><spring:message code="user.register.submit"/></button> -->
 		</form>
+		&nbsp;&nbsp;
+		<p id="demo">Timer</p>
 	</div>
 	<c:set value="${fn:length(questions)}" var="questionCount" />
 	<c:forEach begin="1" end="${questionCount}" var="qNo">
@@ -37,6 +39,7 @@
 <script>
 $(document).ready(function() {
 	$('#creatQuestion').click(function() {
+		//window.alert('hi'); //1820746
 		var exams = ""
 		for (var i = 1; i <= ${exam.questionCount}; i++) {
 			var questionId = $('#questionId_' + i).val();
@@ -54,4 +57,41 @@ $(document).ready(function() {
 	
 
 });
+
+var time = ${timerinMinute}
+var countDownDate = new Date().getTime()+(1000*60*time); //1551022659254
+//window.alert(countDownDate); //1820746
+var x = setInterval(function() {
+	var now = new Date().getTime();
+	 var distance = countDownDate - now;
+	 console.log(distance);
+	  // Time calculations for days, hours, minutes and seconds
+	  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+	  // Display the result in the element with id="demo"
+	  document.getElementById("demo").innerHTML = hours + ": "
+	  + minutes + ": " + seconds + "s ";
+
+	  // If the count down is finished, write some text 
+	  if (distance < 0) {
+	    clearInterval(x);
+	    document.getElementById("demo").innerHTML = "EXPIRED";
+
+	    	var exams = ""
+			for (var i = 1; i <= ${exam.questionCount}; i++) {
+				var questionId = $('#questionId_' + i).val();
+				var examQuestion = $('#examQuestion_' + i).val();
+				var examAnswer = $('#examAnswer_' + i).val();
+				
+				exams += questionId + "@" + examQuestion + "@" + examAnswer + "#";
+			}
+			console.log(exams);
+			$('#examQuestions').val(exams);
+			
+	    $('#examQuestionsForm').submit();
+	  }
+	}, 1000);
 </script>
