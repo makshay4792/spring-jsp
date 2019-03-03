@@ -20,6 +20,7 @@ import com.project.examBench.pojo.Exam;
 import com.project.examBench.pojo.Question;
 import com.project.examBench.pojo.User;
 import com.project.examBench.pojo.UserExam;
+import com.project.examBench.pojo.UserExamResult;
 import com.project.examBench.service.ExamService;
 import com.project.examBench.service.UserService;
 import com.project.examBench.util.CommonUtil;
@@ -143,5 +144,17 @@ public class UserController {
 		});
 		//model.addAttribute("exam", new Exam(4L, "EEEEE",  5, 30));
 		return "examQuestion";
+	}
+
+	@GetMapping("/userExamResult")
+	public String getUserExamResult(Model model) {
+		List<UserExamResult> userExamResults = new ArrayList<>();
+		userExamResults.add(new UserExamResult(1, "Mohan", "English", 10, 20, 11.2));
+		userExamResults.add(new UserExamResult(2, "Gohan", "Wnglish", 10, 20, 15.9));
+		userExamResults.add(new UserExamResult(3, "Sohan", "Pnglish", 30, 20, 16.2));
+		userExamResults.add(new UserExamResult(4, "Tohan", "Ghnglish", 10, 20, 15.8));
+		userExamResults.add(new UserExamResult(5, "Pohan", "Snglish", 40, 20, 17.7));
+		model.addAttribute("userExamResults", userExamResults);
+		return "userExamResult";
 	}
 }

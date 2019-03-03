@@ -1,3 +1,5 @@
+CREATE DATABASE exambench;
+
 CREATE TABLE `exambench`.`roles` (  
   `id` INT NOT NULL,
   `role` VARCHAR(255) NOT NULL,
