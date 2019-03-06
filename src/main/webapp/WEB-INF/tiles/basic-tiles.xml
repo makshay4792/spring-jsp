@@ -91,4 +91,11 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/result.jsp" />
 	</definition>
+	
+	<!-- User Exam Result for Admin-->
+	<definition name = "userExamResult" extends="base-definition">
+		<put-attribute name = "title" value="Use Exam" />
+		<put-attribute name = "body" value="/WEB-INF/views/pages/userExamResult.jsp" />
+	</definition>
+	
 </tiles-definitions>
