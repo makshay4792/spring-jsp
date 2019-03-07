@@ -209,14 +209,14 @@ public class UserController {
 	@GetMapping("/examresult/{examId}")
 	public String getResultForExam(final Model model, @PathVariable("examId") int examId,
 			HttpSession session) {
-		//if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
+		if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
 			List<UserExam> examResults=examService.getResultForExam(examId);
 			//examResults=examService.filterUserExamList(examResults);
 			model.addAttribute("examResults", examResults);
 			return "userExamResult";
-		/*}else {
+		}else {
 			return "login";
-		}*/
+		}
 	}
 	@PostMapping("/exams/evaluate/{examId}/{userId}")
 	public String examQuestionPost(final Model model, String examQuestions, @PathVariable("examId") int examId,
