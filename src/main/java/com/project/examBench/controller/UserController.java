@@ -186,12 +186,17 @@ public class UserController {
 			HttpSession session) {
 		if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
 			UserExam userExam = examService.getUserExam(examId, userId);
+			model.addAttribute("exam", userExam.getExam());
+			model.addAttribute("questionCount", userExam.getExam().getQuestionCount());
+			model.addAttribute("questions", userExam.getExam().getQuestions());
+			model.addAttribute("userId", userId);
+			model.addAttribute("timerinMinute", userExam.getExam().getDurationInMin());
+			if (userExam.getExam().getPassingMarks() <= userExam.getExam().getObtainedMarks()) {
+				model.addAttribute("result","Pass");
+			}else {
+				model.addAttribute("result","Fail");
+			}
 			if (userExam.getMarksObtained() == -1) {
-				model.addAttribute("exam", userExam.getExam());
-				model.addAttribute("questionCount", userExam.getExam().getQuestionCount());
-				model.addAttribute("questions", userExam.getExam().getQuestions());
-				model.addAttribute("userId", userId);
-				model.addAttribute("timerinMinute", userExam.getExam().getDurationInMin());
 				return "userExamQuestion";
 			} else {
 				return "result";
@@ -201,6 +206,18 @@ public class UserController {
 		}
 	}
 
+	@GetMapping("/examresult/{examId}")
+	public String getResultForExam(final Model model, @PathVariable("examId") int examId,
+			HttpSession session) {
+		//if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
+			List<UserExam> examResults=examService.getResultForExam(examId);
+			//examResults=examService.filterUserExamList(examResults);
+			model.addAttribute("examResults", examResults);
+			return "userExamResult";
+		/*}else {
+			return "login";
+		}*/
+	}
 	@PostMapping("/exams/evaluate/{examId}/{userId}")
 	public String examQuestionPost(final Model model, String examQuestions, @PathVariable("examId") int examId,
 			@PathVariable("userId") int userId, HttpSession session) {

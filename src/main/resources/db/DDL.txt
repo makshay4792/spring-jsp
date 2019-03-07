@@ -48,3 +48,6 @@ CREATE TABLE `exambench`.`userexamresult` (
   CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `exambench`.`users`(`id`),
   CONSTRAINT `examid` FOREIGN KEY (`examid`) REFERENCES `exambench`.`exam`(`id`)
 );
+
+ALTER TABLE `exambench`.`users`   
+	ADD COLUMN `name` VARCHAR(255) NULL AFTER `role`;

@@ -37,7 +37,7 @@
 						href="<c:url value="/user/exams/${exam.id}/questions"/>"> <spring:message
 								code="exam.view.question" />
 					</a> &nbsp;|&nbsp; <a
-						href="<c:url value="/user/exams/${exam.id}/questions"/>"> <spring:message
+						href="<c:url value="/user/examresult/${exam.id}"/>"> <spring:message
 								code="admin.result" />
 					</a></td>
 				</tr>

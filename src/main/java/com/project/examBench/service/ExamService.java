@@ -1,5 +1,6 @@
 package com.project.examBench.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,22 @@ public class ExamService {
 	
 	public int saveResult(int userId,int examId,Exam exam) {
 		return examRepository.saveResult(userId, examId, exam);
+	}
+	
+	public List<UserExam> getResultForExam(int examId){
+		return examRepository.getResultForExam(examId);
+	}
+	
+	public List<UserExam> filterUserExamList(List<UserExam> examList){
+		List<UserExam> tempList=new ArrayList<UserExam>();
+		int index=0;
+		for(UserExam ue:examList) {
+			if(ue.getMarksObtained()>=0) {
+				ue.setSrNo(++index);
+				tempList.add(ue);
+			}
+		}
+		return tempList;
 	}
 	public Exam evaluate(Exam exam) {
 		double marks=0;

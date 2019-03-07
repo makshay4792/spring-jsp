@@ -8,7 +8,10 @@ public class UserExam {
 	private int userId;
 	private double marksObtained;
 	private boolean isPass;
-
+	private int srNo;
+	private String fullName;
+	private String result;
+	
 	public UserExam() {
 	}
 
@@ -17,6 +20,30 @@ public class UserExam {
 		this.exam = exam;
 		this.examStatus = examStatus;
 		this.userId = userId;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
 	}
 
 	public double getMarksObtained() {

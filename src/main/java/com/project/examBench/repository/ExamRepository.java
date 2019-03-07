@@ -69,6 +69,8 @@ public class ExamRepository {
 	}
 	
 	public int saveResult(int userId,int examId,Exam exam) {
+		String sqlInsert="INSERT INTO userexamresult (userid,examid,marks_obtained) VALUES ("+userId+","+examId+","+exam.getObtainedMarks()+")";
+		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(exam));
 		return 0;
 	}
 	public Exam getExam(long examId) {
@@ -115,7 +117,7 @@ public class ExamRepository {
 	}
 
 	public List<UserExam> getUserExams(int userId){
-		String sqlSelect="SELECT DISTINCT exam.id,NAME,exam.description,question_count,duration,total_marks,passing_marks, " + 
+		String sqlSelect="SELECT DISTINCT exam.id,IFNULL(userexamresult.userid,0) AS userid,users.name AS fullname,exam.NAME,exam.description,question_count,duration,total_marks,passing_marks, " + 
 				"IFNULL(userexamresult.marks_obtained,-1) AS marks_obtained " + 
 				"FROM exam LEFT JOIN userexamresult ON (exam.id=userexamresult.examid AND userexamresult.userid= "+userId+ ") " + 
 				"LEFT JOIN users ON (userexamresult.userid=users.id) "+
@@ -128,13 +130,15 @@ public class ExamRepository {
 	}
 	
 	public UserExam getUserExam(int examId,int userId){
-		String sqlSelect="SELECT exam.id,NAME,description,question_count,duration,total_marks,passing_marks, " + 
+		String sqlSelect="SELECT IFNULL(userexamresult.userid,0) AS userid,users.name AS fullname,exam.id,exam.NAME,description,question_count,duration,total_marks,passing_marks, " + 
 				"IFNULL(userexamresult.marks_obtained,-1) AS marks_obtained " + 
 				"FROM exam LEFT JOIN userexamresult ON (exam.id=userexamresult.examid AND userexamresult.userid= "+userId+ ") " + 
 				"LEFT JOIN users ON (userexamresult.userid=users.id) where exam.id = "+examId;
 		@SuppressWarnings("unchecked")
 		List<UserExam> userExamList = namedParameterJdbcTemplate.query(sqlSelect, (HashMap)null, (resultSet, i) -> {
-            return toUserExam(resultSet);
+			UserExam userExam=toUserExam(resultSet);
+			userExam.setSrNo(i+1);
+			return userExam;
         });
 		if(userExamList.size()>0) {
 			return userExamList.get(0);
@@ -142,8 +146,35 @@ public class ExamRepository {
 		return null;
 	}
 	
+	public List<UserExam> getResultForExam(int examId){
+		String sqlSelect="SELECT  users.id AS userid,users.name AS fullname,exam.id,exam.NAME,description,question_count,duration,total_marks,passing_marks, " + 
+				"IFNULL(userexamresult.marks_obtained,-1) AS marks_obtained " + 
+				"FROM users LEFT JOIN userexamresult ON (userexamresult.userid=users.id) " + 
+				"INNER JOIN exam ON (exam.id="+examId+") WHERE users.id!=1 ";
+		@SuppressWarnings("unchecked")
+		List<UserExam> userExamList = namedParameterJdbcTemplate.query(sqlSelect, (HashMap)null, (resultSet, i) -> {
+			UserExam userExam=toUserExam(resultSet);
+			userExam.setSrNo(i+1);
+			if(userExam.getMarksObtained()==-1) {
+				userExam.setResult("Not Appeared");
+				userExam.setMarksObtained(0);
+			}else {
+				if(userExam.getMarksObtained()>=userExam.getExam().getPassingMarks()) {
+					userExam.setResult("Pass");
+				}else {
+					userExam.setResult("Fail");
+				}
+			}
+			return userExam;
+        });
+		
+		return userExamList;
+	}
+	
 	private UserExam toUserExam(ResultSet rs) throws SQLException {
 		UserExam ue=new UserExam();
+		ue.setUserId(rs.getInt("userid"));
+		ue.setFullName(rs.getString("fullname"));
 		Exam e=new Exam();
 		e.setExamName(rs.getString("name"));
 		e.setId(rs.getLong("id"));

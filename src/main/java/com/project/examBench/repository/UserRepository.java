@@ -45,7 +45,7 @@ public class UserRepository {
 	}
 	public User save(User user) {
 		user.setRole(2);
-		String sqlInsert = "INSERT INTO users (username,PASSWORD,role) VALUES (:username,MD5(:password),:role)";
+		String sqlInsert = "INSERT INTO users (username,PASSWORD,role,name) VALUES (:username,MD5(:password),:role,:fullName)";
 		
 		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(user));
 		
