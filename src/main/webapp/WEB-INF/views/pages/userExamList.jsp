@@ -23,20 +23,30 @@
 					<td>${userExams.exam.examName}</td>
 					<td>${userExams.exam.questionCount}</td>
 					<td>${userExams.exam.durationInMin}</td>
-					<td><a
-						href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}"/>">
-							<c:choose>
-								<c:when test="${userExams.examStatus eq 0}">
+					<td><c:choose>
+							<c:when test="${userExams.examStatus eq 0}">
+								<a
+									href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}/0"/>">
 									<spring:message code="user.exam.take" />
-								</c:when>
-								<c:when test="${userExams.examStatus eq 1}">
+								</a>
+							</c:when>
+							<c:when test="${userExams.examStatus eq 1}">
+								<a
+									href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}/0"/>">
 									<spring:message code="user.exam.result" />
-								</c:when>
-								<c:otherwise>
+								</a> | 
+								<a
+									href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}/1"/>">
+									<spring:message code="user.exam.retake" />
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a
+									href="<c:url value="/user/questionpaper/${userExams.exam.id}/${userId}/0"/>">
 									<spring:message code="user.exam.resume" />
-								</c:otherwise>
-							</c:choose>
-					</a></td>
+								</a>
+							</c:otherwise>
+						</c:choose></td>
 				</tr>
 			</c:forEach>
 		</tbody>

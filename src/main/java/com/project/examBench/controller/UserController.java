@@ -108,24 +108,6 @@ public class UserController {
 
 	}
 
-	@GetMapping("/exams")
-	public String exams(final Model model, HttpSession session) {
-		if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
-			final List<UserExam> userExams = new ArrayList<>();
-			userExams.add(new UserExam(1, new Exam(1L, "AAAAA", 5, 20), 1, 1));
-			userExams.add(new UserExam(2, new Exam(1L, "BBBBBB", 15, 30), 0, 10));
-			userExams.add(new UserExam(3, new Exam(1L, "CCCCCCC", 51, 10), 0, 101));
-			userExams.add(new UserExam(4, new Exam(1L, "DDDDDDDD", 35, 40), 2, 20));
-			userExams.add(new UserExam(5, new Exam(1L, "EEEEE", 25, 30), 1, 60));
-
-			model.addAttribute("userExams", userExams);
-			model.addAttribute("questionCountDB", 3);
-			return "userExamList";
-		} else {
-			return "login";
-		}
-	}
-
 	@GetMapping("/exams/{id}")
 	public String exam(final Model model, @PathVariable("id") Long id, HttpSession session) {
 		// if id is not found in DB return an empty object
@@ -197,9 +179,9 @@ public class UserController {
 		return returnPage;
 	}
 
-	@GetMapping("/questionpaper/{examId}/{userId}")
+	@GetMapping("/questionpaper/{examId}/{userId}/{retake}")
 	public String takeExam(final Model model, @PathVariable("examId") int examId, @PathVariable("userId") int userId,
-			HttpSession session) {
+			@PathVariable("retake") int retake,HttpSession session) {
 		if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
 			UserExam userExam = examService.getUserExam(examId, userId);
 			model.addAttribute("exam", userExam.getExam());
@@ -212,7 +194,7 @@ public class UserController {
 			}else {
 				model.addAttribute("result","Fail");
 			}
-			if (userExam.getMarksObtained() == -1) {
+			if (userExam.getMarksObtained() == -1 || retake==1) {
 				return "userExamQuestion";
 			} else {
 				return "result";

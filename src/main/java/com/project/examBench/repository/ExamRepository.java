@@ -72,9 +72,23 @@ public class ExamRepository {
 		namedParameterJdbcTemplate.update(sqlDelete, new BeanPropertySqlParameterSource(question));
 		return question.getId();
 	}
+	@SuppressWarnings("unchecked")
 	public int saveResult(int userId,int examId,Exam exam) {
-		String sqlInsert="INSERT INTO userexamresult (userid,examid,marks_obtained) VALUES ("+userId+","+examId+","+exam.getObtainedMarks()+")";
+		
+		int qId=-1;
+		try {
+			qId=(int) namedParameterJdbcTemplate.queryForObject("SELECT IFNULL(id,-1) FROM userexamresult WHERE userid="+userId+" AND examid="+examId
+			,(HashMap)null ,Integer.class);
+		}catch(EmptyResultDataAccessException e) {
+			
+		}
+		if(qId<=0) {
+			String sqlInsert="INSERT INTO userexamresult (userid,examid,marks_obtained) VALUES ("+userId+","+examId+","+exam.getObtainedMarks()+")";
 		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(exam));
+		}else {
+			String sqlUpdate="UPDATE userexamresult SET marks_obtained="+exam.getObtainedMarks()+" WHERE userid="+userId+" AND examid="+examId;
+			namedParameterJdbcTemplate.update(sqlUpdate, new BeanPropertySqlParameterSource(exam));
+		}
 		return 0;
 	}
 	public Exam getExam(long examId) {
