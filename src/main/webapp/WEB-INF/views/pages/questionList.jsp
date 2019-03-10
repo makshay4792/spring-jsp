@@ -33,7 +33,13 @@
 					<td><a
 						href="<c:url value="/user/exams/${examId}/questions/${question.id}"/>">
 							<spring:message code="exam.view" />
-					</a></td>
+					</a>
+					|
+					<a
+						href="<c:url value="/user/exams/${examId}/questions/delete/${question.id}"/>">
+							<spring:message code="user.register.delete" />
+					</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

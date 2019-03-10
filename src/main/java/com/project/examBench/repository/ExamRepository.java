@@ -67,7 +67,11 @@ public class ExamRepository {
 		}
 		return qId;
 	}
-	
+	public int deleteQuestion(Question question) {
+		String sqlDelete=" DELETE FROM questions WHERE id=:id AND exam_id=:examCode ";
+		namedParameterJdbcTemplate.update(sqlDelete, new BeanPropertySqlParameterSource(question));
+		return question.getId();
+	}
 	public int saveResult(int userId,int examId,Exam exam) {
 		String sqlInsert="INSERT INTO userexamresult (userid,examid,marks_obtained) VALUES ("+userId+","+examId+","+exam.getObtainedMarks()+")";
 		namedParameterJdbcTemplate.update(sqlInsert, new BeanPropertySqlParameterSource(exam));

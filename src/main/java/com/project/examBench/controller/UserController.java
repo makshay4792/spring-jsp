@@ -1,8 +1,6 @@
 package com.project.examBench.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -180,6 +178,24 @@ public class UserController {
 		}
 		return returnPage;
 	}
+	
+	@GetMapping("/exams/{examId}/questions/delete/{id}")
+	public String deleteQuestion(Model model,
+			@PathVariable("examId") int examId, @PathVariable("id") int id, HttpSession session) {
+		String returnPage = "login";
+		Question question=new Question();
+		if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
+			question.setExamCode(examId);
+			question.setId(id);
+			examService.deleteQuestion(question);
+			model.addAttribute("questions", examService.getAllQuestions(examId));
+			model.addAttribute("examId", examId);
+			returnPage = "questionList";
+		} else {
+			returnPage = "login";
+		}
+		return returnPage;
+	}
 
 	@GetMapping("/questionpaper/{examId}/{userId}")
 	public String takeExam(final Model model, @PathVariable("examId") int examId, @PathVariable("userId") int userId,
@@ -236,7 +252,7 @@ public class UserController {
 				examService.saveResult(userId, examId, exam);
 			}
 			// call Result page here
-			return "result";
+ 			return "result";
 		} else {
 			return "login";
 		}

@@ -30,6 +30,10 @@ public class ExamService {
 		return qId;
 	}
 	
+	public int deleteQuestion(Question question) {
+		return examRepository.deleteQuestion(question);
+	}
+	
 	public Exam getExam(long examId) {
 		Exam exam=examRepository.getExam(examId);
 		if(exam==null) {
@@ -111,8 +115,8 @@ public class ExamService {
 		answer=answer.toLowerCase();
 		Map<String,Integer> keyMap=new HashMap<String, Integer>();
 		for(String s:keyWords) {
-			if(answer.contains(s)){
-				keyMap.put(s, answer.indexOf(s));
+			if(answer.contains(s.toLowerCase())){
+				keyMap.put(s, answer.indexOf(s.toLowerCase()));
 			}
 		}
 		Map<String,Integer> sortedKeyMap=CommonUtil.sortByValue(keyMap);
