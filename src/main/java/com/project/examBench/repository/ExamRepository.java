@@ -77,7 +77,7 @@ public class ExamRepository {
 		
 		int qId=-1;
 		try {
-			qId=(int) namedParameterJdbcTemplate.queryForObject("SELECT IFNULL(id,-1) FROM userexamresult WHERE userid="+userId+" AND examid="+examId
+			qId=(int) namedParameterJdbcTemplate.queryForObject("SELECT MAX(IFNULL(id,-1)) FROM userexamresult WHERE userid="+userId+" AND examid="+examId
 			,(HashMap)null ,Integer.class);
 		}catch(EmptyResultDataAccessException e) {
 			

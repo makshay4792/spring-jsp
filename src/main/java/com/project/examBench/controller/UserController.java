@@ -91,6 +91,8 @@ public class UserController {
 		model.addAttribute("exams", examService.getAllExams());
 		return "examList";
 	}
+	
+	
 
 	@PostMapping("/updateExams/{id}")
 	public String updateExam(@ModelAttribute("userDto") Exam exam, Model model, @PathVariable("id") Long id,
