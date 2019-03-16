@@ -104,30 +104,35 @@ public class ExamService {
 			}else {
 				q.setObtainedMarks(this.calculateMarks(q.getKeyWords(), q.getAnswer(), q.getMaxMarks()));
 			}
-			marks+=q.getObtainedMarks();
+			marks+=q.getObtainedMarks(); 
 		}
 		exam.setObtainedMarks(marks);
 		return exam;
 	}
 	private double calculateMarks(List<String> keyWords,String answer,double maxMarks) {
-		double obtainedMarks=0;
-		int rightSequence=0;
-		answer=answer.toLowerCase();
-		Map<String,Integer> keyMap=new HashMap<String, Integer>();
-		for(String s:keyWords) {
-			if(answer.contains(s.toLowerCase())){
+		double obtainedMarks = 0;
+		int rightSequence = 0;
+		answer = answer.toLowerCase();
+		Map<String, Integer> keyMap = new HashMap<String, Integer>();
+		List<String> keyWordsTemp = new ArrayList<>(keyWords);
+		for (String s : keyWords) {
+			if (answer.contains(s.toLowerCase())) {
 				keyMap.put(s, answer.indexOf(s.toLowerCase()));
+			} else {
+				keyWordsTemp.remove(s);
 			}
 		}
-		Map<String,Integer> sortedKeyMap=CommonUtil.sortByValue(keyMap);
-		int index=0;
-		for(Map.Entry<String, Integer> entry:sortedKeyMap.entrySet()) {
-			if(entry.getKey().equalsIgnoreCase(keyWords.get(index))) {
-				rightSequence++;
+		Map<String, Integer> sortedKeyMap = CommonUtil.sortByValue(keyMap);
+		int index = 0;
+		if (sortedKeyMap.size() == keyWordsTemp.size()) {
+			for (Map.Entry<String, Integer> entry : sortedKeyMap.entrySet()) {
+				if (entry.getKey().equalsIgnoreCase(keyWordsTemp.get(index))) {
+					rightSequence++;
+				}
+				index++;
 			}
-			index++;
 		}
-		obtainedMarks=(maxMarks/keyWords.size())*rightSequence;
+		obtainedMarks = (maxMarks / keyWords.size()) * rightSequence;
 		return obtainedMarks;
 	}
 }
