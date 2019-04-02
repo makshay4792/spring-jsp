@@ -51,6 +51,14 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<div class="form-group">
+		<form action="<c:url value="/user/login/${userId}"/>"
+			method="post">
+			<button type="submit" class="btnbtn-primary">
+				<spring:message code="back" />
+			</button>
+		</form>
+	</div>
 </div>
 
 <script>

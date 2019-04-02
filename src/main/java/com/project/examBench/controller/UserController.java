@@ -64,6 +64,19 @@ public class UserController {
 		return "login";
 	}
 
+	@PostMapping("/login/{userId}")
+	public String examListBack(final Model model, @PathVariable("userId") int id, HttpSession session) {
+		String returnPage = "login";
+		if (session.getAttribute(CommonUtil.LOGGED_IN_USER) != null) {
+			model.addAttribute("userExams", examService.getUserExams(id));
+			model.addAttribute("userId",id);
+			returnPage = "userExamList";
+		} else {
+			returnPage = "login";
+		}
+		return returnPage;
+	}
+	
 	@PostMapping("/login")
 	public String login(final Model model, final User user, final HttpSession session) {
 		String returnPage = "home";
